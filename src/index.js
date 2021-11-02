@@ -19,6 +19,11 @@ app.use(morgan('combined'));
 // enabling CORS for all requests
 app.use(cors());
 
+// swagger UI
+const swagger = require('swagger-ui-express'),
+      swaggerConfig = require('./swagger.js');
+app.use('/docs', swagger.serve, swagger.setup(swaggerConfig));
+
 // starting express server
 app.listen(3001, () => {
   console.log('Server running on port 3001');
