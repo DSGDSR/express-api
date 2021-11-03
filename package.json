@@ -6,7 +6,7 @@
   "scripts": {
     "start": "set NODE_ENV=local && node src/app.js",
     "start:watch": "set NODE_ENV=local && nodemon --exec node src/app.js",
-    "deploy": "node src",
+    "deploy": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
