@@ -2,6 +2,45 @@ const mongoose = require('mongoose');
 const router = require('express').Router();
 const Session = mongoose.model('Session');
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Sessions
+ * components:
+ *   schemas:
+ *     Session:
+ *       type: object
+ *       required:
+ *         - name
+ *         - date
+ *       properties:
+ *         id:
+ *           type: string
+ *         name:
+ *           type: string
+ *         date:
+ *           type: string
+ *         active:
+ *           type: boolean
+ *         createdBy:
+ *           type: string
+ * 
+ * /api/sessions:
+ *   get:
+ *     summary: Retrieve a list of all sesions
+ *     tags: [Sessions]
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: A list of all sessions
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Session'
+ */
 router.get('/', (req, res) => {
   Session.find({}).then(sessions => {
     return res.json({ data: sessions });
@@ -11,6 +50,31 @@ router.get('/', (req, res) => {
   });
 });
 
+
+/**
+ * @swagger
+ * 
+ * /api/sessions/{id}:
+ *   get:
+ *     summary: Retrieve a session by id
+ *     tags: [Sessions]
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: Session id
+ *         in: path
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: An object containing the matching id session
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Session'
+ */
 router.get('/:id', (req, res) => {
   const { id } = req.params;
 
@@ -27,6 +91,36 @@ router.get('/:id', (req, res) => {
   });
 });
 
+
+/**
+ * @swagger
+ * 
+ * /api/sessions:
+ *   post:
+ *     summary: Create a new session
+ *     tags: [Sessions]
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           in: body
+ *           name: session
+ *           description: The session to create
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/Session'
+ *     responses:
+ *       200:
+ *         description: An object containing the created session
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Session'
+ */
 router.post('/', (req, res) => {
   const session = req.body;
 

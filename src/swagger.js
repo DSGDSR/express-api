@@ -8,7 +8,19 @@ const options = {
             version: '1.0.0',
         },
     },
-    apis: ['./routes/*.js']
+    servers: [
+        { 
+            url: 'http://localhost:3001/',
+            description: 'Local server'
+        },
+        { 
+            url: 'https://music-api-dsgdsr.herokuapp.com/',
+            description: 'Development server'
+        }
+    ],
+    apis: [
+        'src/routes/api/*.js'
+    ]
 };
 
 module.exports = swaggerJsdoc(options);

@@ -3,7 +3,8 @@ const { transformSchema } = require('../utils/mongoose.utils');
 
 const sessionSchema = new mongoose.Schema({
     name: {
-        type: String
+        type: String,
+        required: true
     },
     active: {
         type: Boolean,
