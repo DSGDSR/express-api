@@ -5,6 +5,10 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 
+// get env variables
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, `../env/${process.env.NODE_ENV.trim()}.env`)});
+
 // defining express app
 const app = express();
 
@@ -25,6 +29,7 @@ const swagger = require('swagger-ui-express'),
 app.use('/docs', swagger.serve, swagger.setup(swaggerConfig));
 
 // starting express server
-app.listen(3001, () => {
-  console.log('Server running on port 3001');
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
