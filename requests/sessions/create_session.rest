@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/sessions
+Content-Type: application/json
+
+{
+    "name": "Sala M100 - Vicente perro",
+    "date": "Wed, 03 Nov 2021 14:02:37 GMT",
+    "active": true
+}

@@ -1,0 +1,4 @@
+GET http://localhost:3001/api/sessions/61829d62b5b2202b51c0b05d
+
+# Not found
+# GET http://localhost:3001/api/sessions/61829d62b5b2202b51c0b05a
