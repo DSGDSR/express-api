@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=local && nodemon --exec node src",
-    "deploy": "npm install && cross-env NODE_ENV=dev && nodemon --exec node src",
+    "start": "NODE_ENV=local && node src",
+    "start:watch": "NODE_ENV=local && nodemon --exec node src",
+    "deploy": "node src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,11 +20,8 @@
   },
   "homepage": "https://github.com/DSGDSR/express-api#readme",
   "dependencies": {
-    "@babel/node": "^7.16.0",
-    "@babel/register": "^7.16.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "mongoose": "^6.0.12",
