@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const auth = require('../../utils/auth');
 const router = require('express').Router();
 const Session = mongoose.model('Session');
 
@@ -46,7 +47,7 @@ router.get('/', (req, res) => {
     return res.json({ data: sessions });
   }).catch(err => {
     res.status(err?.code || 500);
-    return res.json({ error: err })
+    return res.json({ errors: [err] })
   });
 });
 
@@ -87,7 +88,7 @@ router.get('/:id', (req, res) => {
     }
   }).catch(err => {
     res.status(err?.code || 500);
-    return res.json({ error: err })
+    return res.json({ errors: [err] })
   });
 });
 
@@ -121,7 +122,7 @@ router.get('/:id', (req, res) => {
  *               type: object
  *               $ref: '#/components/schemas/Session'
  */
-router.post('/', (req, res) => {
+router.post('/', auth.required, (req, res) => {
   const session = req.body;
 
   if (!session?.name || !session?.date) {
@@ -132,11 +133,14 @@ router.post('/', (req, res) => {
     name: session.name,
     date: session.date,
     active: session.active || false,
-    created_by: session.created_by || null
+    createdBy: req.payload?.id || null
   });
 
   newSession.save().then(savedSession => {
     res.json({ data: savedSession });
+  }).catch(err => {
+    res.status(err?.code || 500);
+    return res.json({ errors: [err] })
   });
 });
 

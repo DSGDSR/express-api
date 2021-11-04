@@ -1,8 +1,17 @@
+const isProduction = process.env.NODE_ENV === 'production';
+
 // get env variables and db
 require('./env');
 require('./db')
 
-const isProduction = process.env.NODE_ENV === 'production';
+// load mongo models
+require('./models/User');
+require('./models/Session');
+require('./models/SongRequest');
+
+// require passport and custom auth
+require('passport');
+require('./utils/passport')
 
 // express and api dependencies
 const express = require('express');
@@ -29,11 +38,6 @@ app.use(cors());
 const swagger = require('swagger-ui-express'),
       swaggerConfig = require('./swagger.js');
 app.use('/docs', swagger.serve, swagger.setup(swaggerConfig));
-
-// load mongo models
-require('./models/User');
-require('./models/Session');
-require('./models/SongRequest');
 
 // load routes
 app.use(require('./routes'));

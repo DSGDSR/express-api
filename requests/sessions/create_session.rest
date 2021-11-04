@@ -1,5 +1,6 @@
 POST http://localhost:3001/api/sessions
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxODQwMjJlNjk4YzVmNjMxMzQyZjQwYyIsInVzZXJuYW1lIjoiRFNHRFNSIiwiZXhwIjoxNjQxMjI1NDM0LCJpYXQiOjE2MzYwNDE0MzR9.vC6tnza8c-Jebgexm1bvW2IY45eN-x_8P_-K4k0XAdY
 
 {
     "name": "Sala M100 - Vicente perro",

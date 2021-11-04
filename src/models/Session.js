@@ -14,7 +14,7 @@ const sessionSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    created_by: {
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: false // todo true

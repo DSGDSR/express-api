@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/user/register
+Content-Type: application/json
+
+{
+    "user": {
+        "username": "DSGDSR",
+        "email": "test@dsgdsr.me",
+        "password": "123"
+    }
+}

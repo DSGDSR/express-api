@@ -17,7 +17,7 @@ const songRequestSchema = new mongoose.Schema({
         ref: 'Song'
     },
     active: Boolean,
-    created_by: {        
+    createdBy: {        
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }
