@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema({
             ref: 'Song'
         }
     ],
+    verified: {
+        type: Boolean,
+        default: false
+    },
     active: {
         type: Boolean,
         default: true
