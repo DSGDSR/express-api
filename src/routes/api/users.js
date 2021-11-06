@@ -8,7 +8,7 @@ router.get('/user', auth.required, (req, res, next) => {
   User.findById(req.payload.id).then(user => {
     if (!user){ return res.sendStatus(401); }
 
-    return res.json({ user: user.toAuthJSON() });
+    return res.json({ data: user.toAuthJSON() });
   }).catch(next);
 });
 
@@ -33,8 +33,8 @@ router.put('/user', auth.required, (req, res, next) => {
       user.setPassword(req.body.user.password);
     }
 
-    return user.save().then(function(){
-      return res.json({user: user.toAuthJSON()});
+    return user.save().then(() => {
+      return res.json({ data: user.toAuthJSON(user) });
     });
   }).catch(next);
 });
@@ -53,7 +53,7 @@ router.post('/user/login', (req, res, next) => {
 
     if (user) {
       user.token = user.generateJWT(user);
-      return res.json({user: user.toAuthJSON(user)});
+      return res.json({ data: user.toAuthJSON(user) });
     } else {
       return res.status(401).json(info);
     }
@@ -68,8 +68,35 @@ router.post('/user/register', (req, res, next) => {
   user.setPassword(req.body.user.password, user);
 
   user.save().then(user => {
-    return res.json({ user: user.toAuthJSON(user) });
+    return res.json({ data: user.toAuthJSON(user) });
   }).catch(next);
+});
+
+router.get('/user/verify/:id', (req, res, next) => {
+  const { id } = req.params;
+
+  User.findById(id).then(user => {
+    if (user) {
+      user.verified = true;
+
+      return user.save().then(() => {
+        if (req.query?.redirectTo) {
+          res.redirect(req.query?.redirectTo);
+        } else {
+          return res.json({ data: {
+            ...user.toProfileJSONFor(user),
+            verified: true
+          } });
+        }
+      }); 
+    } else {
+      res.status(404);
+      return res.json({ errors: ['User not found.'] });
+    }
+  }).catch(err => {
+    res.status(err?.code || 500);
+    return res.json({ errors: [err] });
+  });
 });
 
 module.exports = router;

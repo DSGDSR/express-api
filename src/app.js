@@ -1,8 +1,9 @@
+process.env.NODE_ENV = process.env.NODE_ENV.trim();
 const isProduction = process.env.NODE_ENV === 'production';
 
 // get env variables and db
 require('./env');
-require('./db')
+require('./db');
 
 // load mongo models
 require('./models/User');
@@ -25,7 +26,7 @@ const app = express();
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(morgan('dev'));
+app.use(morgan('dev', { skip: () => process.env.NODE_ENV === 'test' }));
 
 // enabling CORS for all requests
 app.use(cors());
@@ -36,14 +37,16 @@ const swagger = require('swagger-ui-express'),
 app.use('/docs', swagger.serve, swagger.setup(swaggerConfig));
 
 // adding middlewares
-require('./middlewares/passport.middleware')
-require('./middlewares/success.middleware')
+require('./middlewares/passport.middleware');
+require('./middlewares/success.middleware');
 
 // load routes
 app.use(require('./middlewares/success.middleware'),require('./routes'));
 
 // starting express server
 const PORT = process.env.PORT;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+module.exports = { app, server };

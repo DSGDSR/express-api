@@ -44,10 +44,10 @@ const Session = mongoose.model('Session');
  */
 router.get('/', (req, res) => {
   Session.find({}).then(sessions => {
-    return res.json({ data: sessions });
+    return res.json({ data: sessions || [] });
   }).catch(err => {
     res.status(err?.code || 500);
-    return res.json({ errors: [err] })
+    return res.json({ errors: [err] });
   });
 });
 
@@ -84,11 +84,11 @@ router.get('/:id', (req, res) => {
       return res.json({ data: session });
     } else {
       res.status(404);
-      return res.json({ errors: ['Session not found.'] })
+      return res.json({ errors: ['Session not found.'] });
     }
   }).catch(err => {
     res.status(err?.code || 500);
-    return res.json({ errors: [err] })
+    return res.json({ errors: [err] });
   });
 });
 
@@ -126,7 +126,7 @@ router.post('/', auth.required, (req, res) => {
   const session = req.body;
 
   if (!session?.name || !session?.date) {
-    return res.status(400).json({ errors: ['Required property is missing in the body.'] })
+    return res.status(400).json({ errors: ['Required property is missing in the body.'] });
   }
 
   const newSession = new Session({
@@ -140,7 +140,7 @@ router.post('/', auth.required, (req, res) => {
     res.json({ data: savedSession });
   }).catch(err => {
     res.status(err?.code || 500);
-    return res.json({ errors: [err] })
+    return res.json({ errors: [err] });
   });
 });
 

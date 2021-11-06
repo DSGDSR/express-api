@@ -4,4 +4,4 @@ module.exports = {
         delete returnedObj._id;
         delete returnedObj.__v;
     }
-}
+};

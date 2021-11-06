@@ -8,7 +8,7 @@ const getTokenFromHeader = (req) => {
     }
 
     return null;
-}
+};
 
 module.exports = {
     required: jwt({

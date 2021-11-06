@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: [ true, 'Username can not be blank.' ],
-        match: [ /^[a-zA-Z0-9]+$/, 'Username format is invalid.' ],
+        match: [ /^[a-zA-Z0-9-_]+$/, 'Username format is invalid.' ],
         index: true,
         unique: true, // make unique and case insensitive
         trim: true
@@ -81,11 +81,11 @@ userSchema.methods.toAuthJSON = (user) => {
     };
 };
 
-userSchema.methods.toProfileJSONFor = () => {
+userSchema.methods.toProfileJSONFor = (user) => {
     return {
-        username: this.username,
-        bio: this.bio,
-        image: this.image || 'https://static.productionready.io/images/smiley-cyrus.jpg' // to set
+        username: user.username,
+        bio: user.bio || null,
+        image: user.image || 'https://static.productionready.io/images/smiley-cyrus.jpg' // to set
     };
 };
 
