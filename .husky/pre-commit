@@ -1,0 +1,11 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "=================================================="
+echo "=====        Starting Pre-Commit Hook        ====="
+echo "=================================================="
+
+echo "INFO: Running the linter on staged files and tests"
+npm run lint:js && npm run test
+
+exit 0
