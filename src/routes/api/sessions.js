@@ -84,7 +84,7 @@ router.get('/:id', (req, res) => {
       return res.json({ data: session });
     } else {
       res.status(404);
-      return res.json({ error: `Session not found with id '${id}'` })
+      return res.json({ errors: ['Session not found.'] })
     }
   }).catch(err => {
     res.status(err?.code || 500);
@@ -126,7 +126,7 @@ router.post('/', auth.required, (req, res) => {
   const session = req.body;
 
   if (!session?.name || !session?.date) {
-    return res.status(400).json({ error: `Required property is missing in the body` })
+    return res.status(400).json({ errors: ['Required property is missing in the body.'] })
   }
 
   const newSession = new Session({

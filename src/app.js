@@ -9,10 +9,6 @@ require('./models/User');
 require('./models/Session');
 require('./models/SongRequest');
 
-// require passport and custom auth
-require('passport');
-require('./utils/passport')
-
 // express and api dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -39,29 +35,12 @@ const swagger = require('swagger-ui-express'),
       swaggerConfig = require('./swagger.js');
 app.use('/docs', swagger.serve, swagger.setup(swaggerConfig));
 
+// adding middlewares
+require('./middlewares/passport.middleware')
+require('./middlewares/success.middleware')
+
 // load routes
-app.use(require('./routes'));
-
-// error handler
-if (!isProduction) {
-  app.use((err, req, res, next) => {
-    console.log(err.stack);
-
-    res.status(err.status || 500);
-    res.json({'errors': {
-      message: err.message,
-      error: err
-    }});
-  });
-} else {
-  app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.json({'errors': {
-      message: err.message,
-      error: {}
-    }});
-  });
-}
+app.use(require('./middlewares/success.middleware'),require('./routes'));
 
 // starting express server
 const PORT = process.env.PORT;
