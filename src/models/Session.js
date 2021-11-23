@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 const { transformSchema } = require('../utils/mongoose.utils');
 
 const sessionSchema = new mongoose.Schema({
@@ -23,6 +24,8 @@ const sessionSchema = new mongoose.Schema({
 {
   timestamps: true
 });
+
+sessionSchema.plugin(mongoosePaginate);
 
 sessionSchema.set('toJSON', { transform: transformSchema });
 

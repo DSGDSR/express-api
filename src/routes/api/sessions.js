@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const auth = require('../../utils/auth');
+const mongooseUtils = require('../../utils/mongoose.utils');
 const router = require('express').Router();
 const Session = mongoose.model('Session');
 
@@ -43,12 +44,18 @@ const Session = mongoose.model('Session');
  *                 $ref: '#/components/schemas/Session'
  */
 router.get('/', (req, res) => {
-  Session.find({}).then(sessions => {
-    return res.json({ data: sessions || [] });
-  }).catch(err => {
-    res.status(err?.code || 500);
-    return res.json({ errors: [err] });
-  });
+  const paginateOpts = {
+    page: req.query?.page,
+    limit: req.query?.limit
+  };
+
+  Session.paginate({}, mongooseUtils.getPaginateOptions(paginateOpts))
+    .then(sessions => {
+      return res.json({ ...sessions });
+    }).catch(err => {
+      res.status(err?.code || 500);
+      return res.json({ errors: [err] });
+    });
 });
 
 
